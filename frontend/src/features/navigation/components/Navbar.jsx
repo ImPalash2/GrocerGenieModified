@@ -7,12 +7,14 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+
 import { Link, useNavigate } from "react-router-dom";
 import {
   Badge,
   Box,
   Button,
   Chip,
+  InputAdornment,
   Stack,
   TextField,
   useMediaQuery,
@@ -31,8 +33,9 @@ import {
   toggleFilters,
 } from "../../products/ProductSlice";
 import logo from "./../../../assets/images/logo.png";
+import Searchbar from "./Searchbar";
 
-export const Navbar = ({ isProductList = false }) => {
+export const Navbar = ({ isProductList = false, onSearch }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const userInfo = useSelector(selectUserInfo);
@@ -60,16 +63,18 @@ export const Navbar = ({ isProductList = false }) => {
   };
 
   const settings = [
-    { name: "Home", to: "/" },
+    { id: 1, name: "Home", to: "/" },
     {
+      id: 2,
       name: "Profile",
       to: loggedInUser?.isAdmin ? "/admin/profile" : "/profile",
     },
     {
+      id: 3,
       name: loggedInUser?.isAdmin ? "Orders" : "My orders",
       to: loggedInUser?.isAdmin ? "/admin/orders" : "/orders",
     },
-    { name: "Logout", to: "/logout" },
+    { id: 4, name: "Logout", to: "/logout" },
   ];
 
   return (
@@ -129,7 +134,7 @@ export const Navbar = ({ isProductList = false }) => {
               sx={{
                 fontWeight: "bold",
                 color: "black",
-                fontSize: "1rem",
+                fontSize: "1.2rem",
                 color: "#333", // Dark color for readability
                 letterSpacing: "0.5px",
               }}
@@ -153,50 +158,7 @@ export const Navbar = ({ isProductList = false }) => {
         ) : (
           ""
         )}
-        {!is900 ? (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              flexGrow: 1,
-              ml: 2,
-              mr: 2,
-            }}
-          >
-            <TextField
-              placeholder="Search..."
-              variant="outlined"
-              size="small"
-              fullWidth
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: 2,
-                minWidth: "26vw",
-                maxWidth: "35vw",
-                "& .MuiOutlinedInput-root": {
-                  paddingRight: 0,
-                  "& fieldset": {
-                    borderColor: "#BDBDBD",
-                    borderWidth: "1px",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#BDBDBD",
-                    borderWidth: "1.5px",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#BDBDBD",
-                    borderWidth: "1px",
-                  },
-                },
-              }}
-              InputProps={{
-                sx: { height: "2.5rem" },
-              }}
-            />
-          </Box>
-        ) : (
-          ""
-        )}
+        {!is900 ? <Searchbar onSearch={onSearch} /> : ""}
         <Stack
           flexDirection={"row"}
           alignItems={"center"}
@@ -247,7 +209,7 @@ export const Navbar = ({ isProductList = false }) => {
                 </MenuItem>
               )}
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting.id} onClick={handleCloseUserMenu}>
                   <Typography
                     component={Link}
                     color={"text.primary"}

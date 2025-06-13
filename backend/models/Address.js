@@ -27,14 +27,14 @@ const addressSchema = new Schema({
     type: String,
     required: true,
   },
-  country: {
+  name: {
     type: String,
     required: true,
   },
-  type: {
-    type: String,
-    required: true,
-  },
+  // type: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 export default mongoose.model("Address", addressSchema);

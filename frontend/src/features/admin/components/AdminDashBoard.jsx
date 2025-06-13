@@ -135,7 +135,7 @@ export const AdminDashBoard = () => {
           mb={"5rem"}
           sx={{ scrollBehavior: "smooth", overflowY: "scroll" }}
         >
-          <Typography variant="h4">New Arrivals</Typography>
+          <Typography variant="h4">Search Product by</Typography>
 
           <IconButton
             onClick={handleFilterClose}
@@ -146,7 +146,7 @@ export const AdminDashBoard = () => {
             </motion.div>
           </IconButton>
 
-          <Stack rowGap={2} mt={4}>
+          {/* <Stack rowGap={2} mt={4}>
             <Typography sx={{ cursor: "pointer" }} variant="body2">
               Totes
             </Typography>
@@ -162,7 +162,7 @@ export const AdminDashBoard = () => {
             <Typography sx={{ cursor: "pointer" }} variant="body2">
               Laptop Sleeves
             </Typography>
-          </Stack>
+          </Stack> */}
 
           {/* brand filters */}
           <Stack mt={2}>
@@ -269,16 +269,16 @@ export const AdminDashBoard = () => {
           justifyContent={"center"}
           alignContent={"center"}
         >
-          {products.map((product) => (
+          {products?.map((product) => (
             <Stack>
               <Stack sx={{ opacity: product.isDeleted ? 0.7 : 1 }}>
                 <ProductCard
-                  key={product._id}
-                  id={product._id}
-                  title={product.title}
-                  thumbnail={product.thumbnail}
-                  brand={product.brand.name}
-                  price={product.price}
+                  key={product?._id}
+                  id={product?._id}
+                  title={product?.title}
+                  thumbnail={product?.thumbnail}
+                  brand={product?.brand?.name}
+                  price={product?.price}
                   isAdminCard={true}
                 />
               </Stack>

@@ -79,7 +79,7 @@ export const AdminOrders = () => {
   const editOptions = [
     "Pending",
     "Dispatched",
-    "Out for delivery",
+    "Out_for_Delivery",
     "Delivered",
     "Cancelled",
   ];
@@ -89,7 +89,7 @@ export const AdminOrders = () => {
       return { bgcolor: "#dfc9f7", color: "#7c59a4" };
     } else if (status === "Dispatched") {
       return { bgcolor: "#feed80", color: "#927b1e" };
-    } else if (status === "Out for delivery") {
+    } else if (status === "Out_for_Delivery") {
       return { bgcolor: "#AACCFF", color: "#4793AA" };
     } else if (status === "Delivered") {
       return { bgcolor: "#b3f5ca", color: "#548c6a" };
@@ -136,7 +136,7 @@ export const AdminOrders = () => {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        {index}
+                        {index + 1}
                       </TableCell>
                       <TableCell align="right">{order._id}</TableCell>
                       <TableCell align="right">
@@ -148,7 +148,10 @@ export const AdminOrders = () => {
                             columnGap={2}
                           >
                             <Avatar src={product.product.thumbnail}></Avatar>
-                            <Typography>{product.product.title}</Typography>
+                            <Typography>
+                              {product.product.title},<br />
+                              Quantity:{product.quantity}
+                            </Typography>
                           </Stack>
                         ))}
                       </TableCell>

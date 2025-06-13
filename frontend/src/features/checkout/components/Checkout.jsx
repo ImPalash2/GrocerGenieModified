@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   Stack,
   TextField,
@@ -33,14 +34,15 @@ import {
 } from "../../order/OrderSlice";
 import { resetCartByUserIdAsync, selectCartItems } from "../../cart/CartSlice";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { SHIPPING, TAXES } from "../../../constants";
+import { SHIPPING, TAXES, KEYID } from "../../../constants";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 export const Checkout = () => {
   const status = "";
   const addresses = useSelector(selectAddresses);
   const [selectedAddress, setSelectedAddress] = useState(addresses[0]);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("cash");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("CASH");
   const {
     register,
     handleSubmit,
@@ -59,6 +61,10 @@ export const Checkout = () => {
     (acc, item) => item.product.price * item.quantity + acc,
     0
   );
+  let shippingCost = 0;
+  if (orderTotal < 500) {
+    shippingCost = SHIPPING;
+  }
   const theme = useTheme();
   const is900 = useMediaQuery(theme.breakpoints.down(900));
   const is480 = useMediaQuery(theme.breakpoints.down(480));
@@ -89,11 +95,74 @@ export const Checkout = () => {
       item: cartItems,
       address: selectedAddress,
       paymentMode: selectedPaymentMethod,
-      total: orderTotal + SHIPPING + TAXES,
+      total: (Math.floor((orderTotal + shippingCost) * 100) / 100).toFixed(2),
     };
     dispatch(createOrderAsync(order));
   };
+  const handleCreateOrderWithPayment = async () => {
+    const order = {
+      user: loggedInUser._id,
+      item: cartItems,
+      address: selectedAddress,
+      paymentMode: selectedPaymentMethod,
+      total: (Math.floor((orderTotal + shippingCost) * 100) / 100).toFixed(2),
+    };
+    const { data } = await axios.post("/payment/process", {
+      amount: order?.total,
+    });
 
+    console.log(data);
+    console.log(KEYID);
+
+    console.log(order);
+    const options = {
+      key: KEYID, // Replace with your Razorpay key_id
+      amount: order?.total, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "GrocerGenie",
+      description: "Test Transaction",
+      order_id: data.order.id, // This is the order_id created in the backend
+      handler: async function (response) {
+        console.log("Razorpay response:", response);
+
+        const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
+          response || {};
+
+        if (!razorpay_payment_id) {
+          alert("Payment response missing. Try again.");
+          return;
+        }
+
+        try {
+          const verifyRes = await axios.post("/payment/paymentVerification", {
+            razorpay_payment_id,
+            razorpay_order_id,
+            razorpay_signature,
+          });
+
+          if (verifyRes.data.success) {
+            dispatch(createOrderAsync(order));
+          } else {
+            alert("Payment verification failed.");
+          }
+        } catch (err) {
+          console.error("Verification error:", err);
+          alert("Error during payment verification.");
+        }
+      },
+      prefill: {
+        name: "Gaurav Kumar",
+        email: "gaurav.kumar@example.com",
+        contact: "9832399999",
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+  };
   return (
     <Stack
       flexDirection={"row"}
@@ -130,23 +199,12 @@ export const Checkout = () => {
           onSubmit={handleSubmit(handleAddAddress)}
         >
           <Stack>
-            <Typography gutterBottom>Type</Typography>
+            <Typography gutterBottom>Name</Typography>
             <TextField
-              placeholder="Eg. Home, Buisness"
-              {...register("type", { required: true })}
+              placeholder="Enter Your name"
+              {...register("name", { required: true })}
             />
           </Stack>
-
-          <Stack>
-            <Typography gutterBottom>Street</Typography>
-            <TextField {...register("street", { required: true })} />
-          </Stack>
-
-          <Stack>
-            <Typography gutterBottom>Country</Typography>
-            <TextField {...register("country", { required: true })} />
-          </Stack>
-
           <Stack>
             <Typography gutterBottom>Phone Number</Typography>
             <TextField
@@ -154,13 +212,12 @@ export const Checkout = () => {
               {...register("phoneNumber", { required: true })}
             />
           </Stack>
-
           <Stack flexDirection={"row"}>
-            <Stack width={"100%"}>
+            <Stack width={"100%"} marginRight={2}>
               <Typography gutterBottom>City</Typography>
               <TextField {...register("city", { required: true })} />
             </Stack>
-            <Stack width={"100%"}>
+            <Stack width={"100%"} marginRight={2}>
               <Typography gutterBottom>State</Typography>
               <TextField {...register("state", { required: true })} />
             </Stack>
@@ -172,6 +229,10 @@ export const Checkout = () => {
               />
             </Stack>
           </Stack>
+          <Stack>
+            <Typography gutterBottom>Address</Typography>
+            <TextField {...register("street", { required: true })} />
+          </Stack>
 
           <Stack flexDirection={"row"} alignSelf={"flex-end"} columnGap={1}>
             <Button
@@ -179,7 +240,7 @@ export const Checkout = () => {
               type="submit"
               variant="contained"
             >
-              add
+              Add
             </Button>
             <Button color="error" variant="outlined" onClick={() => reset()}>
               Reset
@@ -221,15 +282,14 @@ export const Checkout = () => {
                       value={selectedAddress}
                       onChange={(e) => setSelectedAddress(addresses[index])}
                     />
-                    <Typography>{address.type}</Typography>
+                    <Typography>{address.name}</Typography>
                   </Stack>
 
                   {/* details */}
                   <Stack>
                     <Typography>{address.street}</Typography>
                     <Typography>
-                      {address.state}, {address.city}, {address.country},{" "}
-                      {address.postalCode}
+                      {address.city},{address.state}, {address.postalCode}
                     </Typography>
                     <Typography>{address.phoneNumber}</Typography>
                   </Stack>
@@ -257,10 +317,10 @@ export const Checkout = () => {
               <Radio
                 value={selectedPaymentMethod}
                 name="paymentMethod"
-                checked={selectedPaymentMethod === "COD"}
-                onChange={() => setSelectedPaymentMethod("COD")}
+                checked={selectedPaymentMethod === "CASH"}
+                onChange={() => setSelectedPaymentMethod("CASH")}
               />
-              <Typography>Cash</Typography>
+              <Typography>Cash on Delivery</Typography>
             </Stack>
 
             <Stack
@@ -274,7 +334,7 @@ export const Checkout = () => {
                 checked={selectedPaymentMethod === "CARD"}
                 onChange={() => setSelectedPaymentMethod("CARD")}
               />
-              <Typography>Card</Typography>
+              <Typography>Online Payment</Typography>
             </Stack>
           </Stack>
         </Stack>
@@ -287,15 +347,27 @@ export const Checkout = () => {
       >
         <Typography variant="h4">Order summary</Typography>
         <Cart checkout={true} />
-        <Button
-          fullWidth
-          loading={orderStatus === "pending"}
-          variant="contained"
-          onClick={handleCreateOrder}
-          size="large"
-        >
-          Pay and order
-        </Button>
+        {selectedPaymentMethod === "CASH" ? (
+          <Button
+            fullWidth
+            loading={orderStatus === "pending"}
+            variant="contained"
+            onClick={handleCreateOrder}
+            size="large"
+          >
+            Place Order
+          </Button>
+        ) : (
+          <Button
+            fullWidth
+            loading={orderStatus === "pending"}
+            variant="contained"
+            onClick={handleCreateOrderWithPayment}
+            size="large"
+          >
+            Pay and order
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

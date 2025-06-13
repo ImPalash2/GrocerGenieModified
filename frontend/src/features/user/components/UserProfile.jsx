@@ -159,18 +159,28 @@ export const UserProfile = () => {
               rowGap={2}
             >
               <Stack>
-                <Typography gutterBottom>Type</Typography>
+                <Typography gutterBottom>Name</Typography>
+                <TextField {...register("name", { required: true })} />
+              </Stack>
+              <Stack>
+                <Typography gutterBottom>Phone Number</Typography>
                 <TextField
-                  placeholder="Eg. Home, Buisness"
-                  {...register("type", { required: true })}
+                  type="number"
+                  {...register("phoneNumber", { required: true })}
                 />
               </Stack>
-
               <Stack>
                 <Typography gutterBottom>Street</Typography>
                 <TextField {...register("street", { required: true })} />
               </Stack>
-
+              <Stack>
+                <Typography gutterBottom>City</Typography>
+                <TextField {...register("city", { required: true })} />
+              </Stack>
+              <Stack>
+                <Typography gutterBottom>State</Typography>
+                <TextField {...register("state", { required: true })} />
+              </Stack>
               <Stack>
                 <Typography gutterBottom>Postal Code</Typography>
                 <TextField
@@ -179,28 +189,10 @@ export const UserProfile = () => {
                 />
               </Stack>
 
-              <Stack>
+              {/* <Stack>
                 <Typography gutterBottom>Country</Typography>
                 <TextField {...register("country", { required: true })} />
-              </Stack>
-
-              <Stack>
-                <Typography gutterBottom>Phone Number</Typography>
-                <TextField
-                  type="number"
-                  {...register("phoneNumber", { required: true })}
-                />
-              </Stack>
-
-              <Stack>
-                <Typography gutterBottom>State</Typography>
-                <TextField {...register("state", { required: true })} />
-              </Stack>
-
-              <Stack>
-                <Typography gutterBottom>City</Typography>
-                <TextField {...register("city", { required: true })} />
-              </Stack>
+              </Stack> */}
 
               <Stack
                 flexDirection={"row"}
@@ -236,13 +228,13 @@ export const UserProfile = () => {
                 <Address
                   key={address._id}
                   id={address._id}
-                  city={address.city}
-                  country={address.country}
                   phoneNumber={address.phoneNumber}
-                  postalCode={address.postalCode}
-                  state={address.state}
                   street={address.street}
-                  type={address.type}
+                  city={address.city}
+                  state={address.state}
+                  country="India"
+                  postalCode={address.postalCode}
+                  name={address.name}
                 />
               ))
             ) : (

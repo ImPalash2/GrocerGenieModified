@@ -24,7 +24,7 @@ const seedData = async () => {
     await seedOrder();
 
     console.log("Seed completed..");
-    exit(0);
+    exit;
   } catch (error) {
     console.log(error);
   }

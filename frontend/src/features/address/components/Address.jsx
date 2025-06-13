@@ -19,7 +19,7 @@ import {
 
 export const Address = ({
   id,
-  type,
+  name,
   street,
   postalCode,
   country,
@@ -37,7 +37,7 @@ export const Address = ({
     formState: { errors },
   } = useForm();
   const [edit, setEdit] = useState(false);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const status = useSelector(selectAddressStatus);
   const error = useSelector(selectAddressErrors);
 
@@ -62,7 +62,7 @@ export const Address = ({
         borderRadius={".2rem"}
         bgcolor={theme.palette.primary.main}
       >
-        <Typography>{type?.toUpperCase()}</Typography>
+        <Typography>{name?.toUpperCase()}</Typography>
       </Stack>
 
       {/* address details */}
@@ -79,13 +79,34 @@ export const Address = ({
         {edit ? (
           // update address form
           <Stack rowGap={2}>
-            <Stack>
+            {/* <Stack>
               <Typography gutterBottom>Type</Typography>
               <TextField
                 {...register("type", { required: true, value: type })}
               />
+            </Stack> */}
+            <Stack>
+              <Typography gutterBottom>Phone Number</Typography>
+              <TextField
+                type="number"
+                {...register("phoneNumber", {
+                  required: true,
+                  value: phoneNumber,
+                })}
+              />
             </Stack>
-
+            <Stack>
+              <Typography gutterBottom>City</Typography>
+              <TextField
+                {...register("city", { required: true, value: city })}
+              />
+            </Stack>
+            <Stack>
+              <Typography gutterBottom>State</Typography>
+              <TextField
+                {...register("state", { required: true, value: state })}
+              />
+            </Stack>
             <Stack>
               <Typography gutterBottom>Street</Typography>
               <TextField
@@ -110,40 +131,15 @@ export const Address = ({
                 {...register("country", { required: true, value: country })}
               />
             </Stack>
-
-            <Stack>
-              <Typography gutterBottom>Phone Number</Typography>
-              <TextField
-                type="number"
-                {...register("phoneNumber", {
-                  required: true,
-                  value: phoneNumber,
-                })}
-              />
-            </Stack>
-
-            <Stack>
-              <Typography gutterBottom>State</Typography>
-              <TextField
-                {...register("state", { required: true, value: state })}
-              />
-            </Stack>
-
-            <Stack>
-              <Typography gutterBottom>City</Typography>
-              <TextField
-                {...register("city", { required: true, value: city })}
-              />
-            </Stack>
           </Stack>
         ) : (
           <>
+            <Typography>Phone Number - {phoneNumber}</Typography>
             <Typography>Street - {street}</Typography>
+            <Typography>City - {city}</Typography>
+            <Typography>State - {state}</Typography>
             <Typography>Postal Code- {postalCode}</Typography>
             <Typography>Country - {country}</Typography>
-            <Typography>Phone Number - {phoneNumber}</Typography>
-            <Typography>State - {state}</Typography>
-            <Typography>City - {city}</Typography>
           </>
         )}
 
@@ -170,7 +166,10 @@ export const Address = ({
           ) : (
             <Button
               size="small"
-              onClick={() => setEdit(true)}
+              onClick={() => {
+                reset();
+                setEdit(true);
+              }}
               variant="contained"
             >
               Edit

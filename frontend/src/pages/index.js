@@ -16,20 +16,20 @@ import { UserProfilePage } from "./UserProfilePage";
 import { WishlistPage } from "./WishlistPage";
 
 export {
-    SignupPage,
-    LoginPage,
-    ForgotPasswordPage,
-    ResetPasswordPage,
-    HomePage,
-    ProductDetailsPage,
-    CartPage,
-    UserProfilePage,
-    CheckoutPage,
-    OrderSuccessPage,
-    UserOrdersPage,
-    ProductUpdatePage,
-    AddProductPage,
-    AdminOrdersPage,
-    WishlistPage,
-    OtpVerificationPage
-}
+  SignupPage,
+  LoginPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  HomePage,
+  ProductDetailsPage,
+  CartPage,
+  UserProfilePage,
+  CheckoutPage,
+  OrderSuccessPage,
+  UserOrdersPage,
+  ProductUpdatePage,
+  AddProductPage,
+  AdminOrdersPage,
+  WishlistPage,
+  OtpVerificationPage,
+};

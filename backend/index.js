@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import Razorpay from "razorpay";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/Auth.js";
 import productRoutes from "./routes/Product.js";
@@ -14,6 +15,7 @@ import addressRoutes from "./routes/Address.js";
 import reviewRoutes from "./routes/Review.js";
 import wishlistRoutes from "./routes/Wishlist.js";
 import connectToDB from "./database/db.js";
+import PaymentRoute from "./routes/Payment.js";
 
 // server init
 const server = express();
@@ -45,6 +47,13 @@ server.use("/categories/", categoryRoutes);
 server.use("/address/", addressRoutes);
 server.use("/reviews/", reviewRoutes);
 server.use("/wishlist/", wishlistRoutes);
+server.use("/payment/", PaymentRoute);
+
+//payment rajorpay
+export const instance = new Razorpay({
+  key_id: process.env.keyid,
+  key_secret: process.env.key_secret,
+});
 
 server.get("/", (req, res) => {
   res.status(200).json({ message: "running" });

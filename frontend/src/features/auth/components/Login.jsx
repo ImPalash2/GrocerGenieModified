@@ -6,7 +6,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-  Button
+  Button,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import Lottie from "lottie-react";
@@ -103,7 +103,7 @@ export const Login = () => {
               sx={{ wordBreak: "break-word" }}
               fontWeight={600}
             >
-              Mern Shop
+              GrocerGenie
             </Typography>
             <Typography
               alignSelf={"flex-end"}

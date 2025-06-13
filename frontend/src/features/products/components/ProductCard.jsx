@@ -134,7 +134,7 @@ export const ProductCard = ({
                 alignItems: "center",
               }}
             >
-              <Typography>${price}</Typography>
+              <Typography>Rs. {price}</Typography>
               {!isWishlistCard
                 ? isProductAlreadyInCart
                   ? "Added to cart"
