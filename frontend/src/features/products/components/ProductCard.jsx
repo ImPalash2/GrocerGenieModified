@@ -135,6 +135,7 @@ export const ProductCard = ({
               <Typography>Rs. {price}</Typography>
               {!isWishlistCard ? (
                 isProductAlreadyInCart ? (
+                  // Use the "Added to cart" button style
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 1 }}
@@ -148,9 +149,8 @@ export const ProductCard = ({
                       outline: "none",
                       border: "none",
                       cursor: "pointer",
-                      // View Cart: Use secondary color
-                      backgroundColor: theme.palette.secondary.main,
-                      color: theme.palette.secondary.contrastText,
+                      backgroundColor: theme.palette.success.main,
+                      color: theme.palette.success.contrastText,
                       fontSize: is408
                         ? ".9rem"
                         : is488
@@ -167,7 +167,7 @@ export const ProductCard = ({
                         columnGap: ".5rem",
                       }}
                     >
-                      <p>Already in cart</p>
+                      <p>Added to Cart</p>
                     </div>
                   </motion.button>
                 ) : (
@@ -182,7 +182,6 @@ export const ProductCard = ({
                         outline: "none",
                         border: "none",
                         cursor: "pointer",
-                        // Add To Cart: Use primary color
                         backgroundColor: theme.palette.primary.main,
                         color: theme.palette.primary.contrastText,
                         fontSize: is408
