@@ -245,7 +245,7 @@ export const AdminDashBoard = () => {
         </Stack>
 
         <Grid
-          gap={2}
+          gap={4}
           container
           flex={1}
           justifyContent={"center"}
@@ -264,13 +264,16 @@ export const AdminDashBoard = () => {
             >
               <Stack
                 sx={{
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.12), 0 1.5px 4px rgba(0,0,0,0.10)",
+                  boxShadow:
+                    "0 4px 13px rgba(0,0,0,0.12), 0 1.5px 4px rgba(0,0,0,0.10)",
                   borderRadius: 2,
-                  backgroundColor: "#fff",
-                  p: 2,
+                  backgroundColor: "#ffffff",
+                  p: 1,
                   opacity: product.isDeleted ? 0.7 : 1,
                   width: "100%",
                   maxWidth: 320,
+                  display: "flex",
+                  justifyContent: "space-between",
                 }}
               >
                 <ProductCard
@@ -285,7 +288,7 @@ export const AdminDashBoard = () => {
                   paddingLeft={2}
                   paddingRight={2}
                   flexDirection={"row"}
-                  justifySelf={"flex-end"}
+                  justifyContent={"flex-end"}
                   alignSelf={"flex-end"}
                   columnGap={is488 ? 1 : 2}
                 >

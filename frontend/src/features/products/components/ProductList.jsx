@@ -67,7 +67,7 @@ const sortOptions = [
   { name: "Price: high to low", sort: "price", order: "desc" },
 ];
 
-const bannerImages = [banner1, banner3, banner2, banner4];
+const bannerImages = [banner1, banner3, banner4, banner2];
 
 export const ProductList = () => {
   const [filters, setFilters] = useState({});

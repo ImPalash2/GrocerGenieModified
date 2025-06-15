@@ -79,7 +79,7 @@ export const ProductCard = ({
               ? "240px"
               : is1410
               ? "300px"
-              : "340px"
+              : "310px"
           }
           sx={{ cursor: "pointer" }}
           onClick={() => navigate(`/product-details/${id}`)}

@@ -178,7 +178,7 @@ export const Wishlist = () => {
           <Stack
             alignSelf={"flex-start"}
             flexDirection={"row"}
-            columnGap={1}
+            columnGap={2}
             justifyContent={"center"}
             alignItems={"center"}
           >
@@ -214,12 +214,19 @@ export const Wishlist = () => {
               // wishlist grid
               <Grid
                 container
-                gap={1}
+                gap={2}
                 justifyContent={"center"}
                 alignContent={"center"}
               >
                 {wishlistItems.map((item, index) => (
-                  <Stack component={is480 ? "" : Paper} elevation={1}>
+                  <Stack
+                    component={Paper}
+                    elevation={3}
+                    width={is480 ? "90%" : "20rem"}
+                    key={item._id}
+                    display={"flex"}
+                    justifyContent={"space-between"}
+                  >
                     <ProductCard
                       item
                       key={item._id}
