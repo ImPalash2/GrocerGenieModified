@@ -146,24 +146,6 @@ export const AdminDashBoard = () => {
             </motion.div>
           </IconButton>
 
-          {/* <Stack rowGap={2} mt={4}>
-            <Typography sx={{ cursor: "pointer" }} variant="body2">
-              Totes
-            </Typography>
-            <Typography sx={{ cursor: "pointer" }} variant="body2">
-              Backpacks
-            </Typography>
-            <Typography sx={{ cursor: "pointer" }} variant="body2">
-              Travel Bags
-            </Typography>
-            <Typography sx={{ cursor: "pointer" }} variant="body2">
-              Hip Bags
-            </Typography>
-            <Typography sx={{ cursor: "pointer" }} variant="body2">
-              Laptop Sleeves
-            </Typography>
-          </Stack> */}
-
           {/* brand filters */}
           <Stack mt={2}>
             <Accordion>
@@ -270,10 +252,28 @@ export const AdminDashBoard = () => {
           alignContent={"center"}
         >
           {products?.map((product) => (
-            <Stack>
-              <Stack sx={{ opacity: product.isDeleted ? 0.7 : 1 }}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              key={product._id}
+              display="flex"
+              justifyContent="center"
+            >
+              <Stack
+                sx={{
+                  boxShadow: "0 4px 16px rgba(0,0,0,0.12), 0 1.5px 4px rgba(0,0,0,0.10)",
+                  borderRadius: 2,
+                  backgroundColor: "#fff",
+                  p: 2,
+                  opacity: product.isDeleted ? 0.7 : 1,
+                  width: "100%",
+                  maxWidth: 320,
+                }}
+              >
                 <ProductCard
-                  key={product?._id}
                   id={product?._id}
                   title={product?.title}
                   thumbnail={product?.thumbnail}
@@ -281,41 +281,41 @@ export const AdminDashBoard = () => {
                   price={product?.price}
                   isAdminCard={true}
                 />
-              </Stack>
-              <Stack
-                paddingLeft={2}
-                paddingRight={2}
-                flexDirection={"row"}
-                justifySelf={"flex-end"}
-                alignSelf={"flex-end"}
-                columnGap={is488 ? 1 : 2}
-              >
-                <Button
-                  component={Link}
-                  to={`/admin/product-update/${product._id}`}
-                  variant="contained"
+                <Stack
+                  paddingLeft={2}
+                  paddingRight={2}
+                  flexDirection={"row"}
+                  justifySelf={"flex-end"}
+                  alignSelf={"flex-end"}
+                  columnGap={is488 ? 1 : 2}
                 >
-                  Update
-                </Button>
-                {product.isDeleted === true ? (
                   <Button
-                    onClick={() => handleProductUnDelete(product._id)}
-                    color="error"
-                    variant="outlined"
+                    component={Link}
+                    to={`/admin/product-update/${product._id}`}
+                    variant="contained"
                   >
-                    Un-delete
+                    Update
                   </Button>
-                ) : (
-                  <Button
-                    onClick={() => handleProductDelete(product._id)}
-                    color="error"
-                    variant="outlined"
-                  >
-                    Delete
-                  </Button>
-                )}
+                  {product.isDeleted === true ? (
+                    <Button
+                      onClick={() => handleProductUnDelete(product._id)}
+                      color="error"
+                      variant="outlined"
+                    >
+                      Un-delete
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => handleProductDelete(product._id)}
+                      color="error"
+                      variant="outlined"
+                    >
+                      Delete
+                    </Button>
+                  )}
+                </Stack>
               </Stack>
-            </Stack>
+            </Grid>
           ))}
         </Grid>
 

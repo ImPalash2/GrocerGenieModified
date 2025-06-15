@@ -94,7 +94,7 @@ export const UserOrders = () => {
           <Lottie animationData={loadingAnimation} />
         </Stack>
       ) : (
-        <Stack width={is1200 ? "auto" : "60rem"} p={is480 ? 2 : 4} mb={"5rem"}>
+        <Stack width={is1200 ? "auto" : "60rem"} p={is480 ? 3 : 4} mb={"5rem"}>
           {/* heading and navigation */}
           <Stack flexDirection={"row"} columnGap={2}>
             {!is480 && (
@@ -127,12 +127,7 @@ export const UserOrders = () => {
             {/* orders mapping */}
             {orders &&
               orders.map((order) => (
-                <Stack
-                  p={is480 ? 0 : 2}
-                  component={is480 ? "" : Paper}
-                  elevation={1}
-                  rowGap={2}
-                >
+                <Stack p={2} component={Paper} elevation={1} rowGap={2}>
                   {/* upper */}
                   <Stack
                     flexDirection={"row"}
@@ -173,115 +168,121 @@ export const UserOrders = () => {
 
                   {/* middle */}
                   <Stack rowGap={2}>
-                    {order.item.map((product) => (
-                      <Stack
-                        mt={2}
-                        flexDirection={"row"}
-                        rowGap={is768 ? "2rem" : ""}
-                        columnGap={4}
-                        flexWrap={is768 ? "wrap" : "nowrap"}
-                      >
+                    <React.Fragment>
+                      {order.item.map((product) => (
                         <Stack
-                          sx={{
-                            width: is480 ? 160 : 200, // Increased width
-                            height: is480 ? 120 : 200, // Increased height
-                            background: "#fafafa",
-                            borderRadius: 2,
-                            overflow: "hidden",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginRight: 2, // Added margin right
-                          }}
+                          mt={2}
+                          flexDirection={"row"}
+                          rowGap={is768 ? "2rem" : ""}
+                          columnGap={4}
+                          flexWrap={is768 ? "wrap" : "nowrap"}
+                          key={product.product._id}
                         >
-                          <img
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "contain",
-                              display: "block",
-                            }}
-                            src={product.product.thumbnail}
-                            alt=""
-                          />
-                        </Stack>
-
-                        <Stack rowGap={1} width={"100%"}>
                           <Stack
-                            flexDirection={"row"}
-                            justifyContent={"space-between"}
+                            sx={{
+                              width: is480 ? 160 : 200,
+                              height: is480 ? 120 : 200,
+                              background: "#fff",
+                              borderRadius: 2,
+                              overflow: "hidden",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              marginRight: 2,
+                              boxSizing: "border-box",
+                            }}
                           >
-                            <Stack>
-                              <Typography
-                                variant="h6"
-                                fontSize={"1rem"}
-                                fontWeight={500}
-                              >
-                                {product.product.title}
-                              </Typography>
-                              <Typography
-                                variant="body1"
-                                fontSize={".9rem"}
-                                color={"text.secondary"}
-                              >
-                                {product.product.brand.name}
-                              </Typography>
-                              <Typography
-                                color={"text.secondary"}
-                                fontSize={".9rem"}
-                              >
-                                Qty: {product.quantity}
+                            <img
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "contain",
+                                display: "block",
+                              }}
+                              src={product.product.thumbnail}
+                              alt=""
+                            />
+                          </Stack>
+
+                          <Stack rowGap={1} width={"100%"}>
+                            <Stack
+                              flexDirection={"row"}
+                              justifyContent={"space-between"}
+                            >
+                              <Stack>
+                                <Typography
+                                  variant="h6"
+                                  fontSize={"1rem"}
+                                  fontWeight={500}
+                                >
+                                  {product.product.title}
+                                </Typography>
+                                <Typography
+                                  variant="body1"
+                                  fontSize={".9rem"}
+                                  color={"text.secondary"}
+                                >
+                                  {product.product.brand.name}
+                                </Typography>
+                                <Typography
+                                  color={"text.secondary"}
+                                  fontSize={".9rem"}
+                                >
+                                  Qty: {product.quantity}
+                                </Typography>
+                              </Stack>
+                              <Typography>
+                                Rs. {product.product.price}
                               </Typography>
                             </Stack>
-                            <Typography>Rs. {product.product.price}</Typography>
-                          </Stack>
 
-                          <Typography color={"text.secondary"}>
-                            {product.product.description}
-                          </Typography>
+                            <Typography color={"text.secondary"}>
+                              {product.product.description}
+                            </Typography>
 
-                          <Stack
-                            mt={2}
-                            alignSelf={is480 ? "flex-start" : "flex-end"}
-                            flexDirection={"row"}
-                            columnGap={2}
-                          >
-                            <Button
-                              size="small"
-                              component={Link}
-                              to={`/product-details/${product.product._id}`}
-                              variant="outlined"
+                            <Stack
+                              mt={2}
+                              alignSelf={is480 ? "flex-start" : "flex-end"}
+                              flexDirection={"row"}
+                              columnGap={2}
                             >
-                              View Product
-                            </Button>
-                            {cartItems.some(
-                              (cartItem) =>
-                                cartItem.product._id === product.product._id
-                            ) ? (
                               <Button
                                 size="small"
-                                variant="contained"
                                 component={Link}
-                                to={"/cart"}
+                                to={`/product-details/${product.product._id}`}
+                                variant="outlined"
                               >
-                                Already in Cart
+                                View Product
                               </Button>
-                            ) : (
-                              <Button
-                                size="small"
-                                variant="contained"
-                                onClick={() => handleAddToCart(product.product)}
-                              >
-                                Buy Again
-                              </Button>
-                            )}
+                              {cartItems.some(
+                                (cartItem) =>
+                                  cartItem.product._id === product.product._id
+                              ) ? (
+                                <Button
+                                  size="small"
+                                  variant="contained"
+                                  component={Link}
+                                  to={"/cart"}
+                                >
+                                  Already in Cart
+                                </Button>
+                              ) : (
+                                <Button
+                                  size="small"
+                                  variant="contained"
+                                  onClick={() =>
+                                    handleAddToCart(product.product)
+                                  }
+                                >
+                                  Buy Again
+                                </Button>
+                              )}
+                            </Stack>
                           </Stack>
                         </Stack>
-                      </Stack>
-                    ))}
+                      ))}
+                    </React.Fragment>
                   </Stack>
-
-                  {/* lower */}
                   <Stack
                     mt={2}
                     flexDirection={is480 ? "column" : "row"}
@@ -332,7 +333,10 @@ export const UserOrders = () => {
                         {order.status}
                       </Stack>
                     </Stack> */}
-                    <OrderTrackingComponent currentStatus={order.status} orderDate={order.createdAt} />
+                    <OrderTrackingComponent
+                      currentStatus={order.status}
+                      orderDate={order.createdAt}
+                    />
                     {/* Optionally, you can add a tracking link or expected delivery date here */}
                   </Stack>
                 </Stack>

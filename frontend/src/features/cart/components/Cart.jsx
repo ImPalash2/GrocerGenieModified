@@ -77,7 +77,7 @@ export const Cart = ({ checkout }) => {
         rowGap={4}
       >
         {/* cart items */}
-        <Stack rowGap={2}>
+        <Stack rowGap={5}>
           {items &&
             items.map((item) => (
               <CartItem

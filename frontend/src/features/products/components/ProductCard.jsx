@@ -62,15 +62,13 @@ export const ProductCard = ({
     <>
       {isProductAlreadyinWishlist !== -1 ? (
         <Stack
-          component={
-            isAdminCard ? "" : isWishlistCard ? "" : is408 ? "" : Paper
-          }
+          component={Paper}
           mt={is408 ? 2 : 0}
-          elevation={1}
+          elevation={isAdminCard || isWishlistCard ? 0 : 2}
           p={2}
           width={
             is408
-              ? "auto"
+              ? "95%"
               : is488
               ? "200px"
               : is608
@@ -135,43 +133,82 @@ export const ProductCard = ({
               }}
             >
               <Typography>Rs. {price}</Typography>
-              {!isWishlistCard
-                ? isProductAlreadyInCart
-                  ? "Added to cart"
-                  : !isAdminCard && (
-                      <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 1 }}
-                        onClick={(e) => handleAddToCart(e)}
+              {!isWishlistCard ? (
+                isProductAlreadyInCart ? (
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 1 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/cart");
+                    }}
+                    style={{
+                      padding: "10px 15px",
+                      borderRadius: "3px",
+                      outline: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      // View Cart: Use secondary color
+                      backgroundColor: theme.palette.secondary.main,
+                      color: theme.palette.secondary.contrastText,
+                      fontSize: is408
+                        ? ".9rem"
+                        : is488
+                        ? ".7rem"
+                        : is500
+                        ? ".8rem"
+                        : ".9rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        columnGap: ".5rem",
+                      }}
+                    >
+                      <p>Already in cart</p>
+                    </div>
+                  </motion.button>
+                ) : (
+                  !isAdminCard && (
+                    <motion.button
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 1 }}
+                      onClick={(e) => handleAddToCart(e)}
+                      style={{
+                        padding: "10px 15px",
+                        borderRadius: "3px",
+                        outline: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        // Add To Cart: Use primary color
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.primary.contrastText,
+                        fontSize: is408
+                          ? ".9rem"
+                          : is488
+                          ? ".7rem"
+                          : is500
+                          ? ".8rem"
+                          : ".9rem",
+                      }}
+                    >
+                      <div
                         style={{
-                          padding: "10px 15px",
-                          borderRadius: "3px",
-                          outline: "none",
-                          border: "none",
-                          cursor: "pointer",
-                          backgroundColor: "black",
-                          color: "white",
-                          fontSize: is408
-                            ? ".9rem"
-                            : is488
-                            ? ".7rem"
-                            : is500
-                            ? ".8rem"
-                            : ".9rem",
+                          display: "flex",
+                          alignItems: "center",
+                          columnGap: ".5rem",
                         }}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            columnGap: ".5rem",
-                          }}
-                        >
-                          <p>Add To Cart</p>
-                        </div>
-                      </motion.button>
-                    )
-                : ""}
+                        <p>Add To Cart</p>
+                      </div>
+                    </motion.button>
+                  )
+                )
+              ) : (
+                ""
+              )}
             </Stack>
             {stockQuantity <= 20 && (
               <FormHelperText sx={{ fontSize: ".9rem" }} error>

@@ -51,9 +51,9 @@ export const CartItem = ({
   return (
     <Stack
       bgcolor={"white"}
-      component={is900 ? "" : Paper}
-      p={is900 ? 0 : 2}
-      elevation={1}
+      component={Paper}
+      p={3}
+      elevation={2}
       flexDirection={"row"}
       justifyContent={"space-between"}
       alignItems={"center"}
