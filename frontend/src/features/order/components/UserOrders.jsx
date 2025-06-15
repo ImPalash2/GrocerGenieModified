@@ -126,7 +126,7 @@ export const UserOrders = () => {
           <Stack mt={5} rowGap={5}>
             {/* orders mapping */}
             {orders &&
-              orders.map((order) => (
+              [...orders].reverse().map((order) => (
                 <Stack p={2} component={Paper} elevation={1} rowGap={2}>
                   {/* upper */}
                   <Stack
@@ -341,6 +341,7 @@ export const UserOrders = () => {
                   </Stack>
                 </Stack>
               ))}
+
             {/* no orders animation */}
             {!orders.length && (
               <Stack
